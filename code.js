@@ -4,6 +4,42 @@ class AnimalFarm {
         this.farm = farm;
         this.removedAnimals = [];
         this.animals = [];
+        this.removeAnimalOnClick = (event) => {
+            const parentNodeId = this.farm.id;
+            const animals = Array.from(this.farm.children);
+            const index = animals.indexOf(event.currentTarget);
+            if (index === -1) {
+                console.error("Can't remove the right animal");
+            }
+            ;
+            switch (parentNodeId) {
+                case "Animals_div":
+                    animalFarm.removedAnimals.push(animalFarm.animals[index]);
+                    animalFarm.animals.splice(index, 1);
+                    animalFarm.farm.removeChild(event.currentTarget);
+                    break;
+                default:
+                    console.error("No such farm exists");
+                    return;
+            }
+            ;
+        };
+        this.removeAnimal = (animal) => {
+            const animals = Array.from(this.farm.children);
+            const index = animals.indexOf(animal);
+            this.removedAnimals.push(this.animals[index]);
+            this.animals.splice(index, 1);
+            this.farm.removeChild(animal);
+        };
+        this.leaveOnlyPenguins = () => {
+            const animals = Array.from(this.farm.children);
+            animals.forEach((animal) => {
+                if (animal.attributes[0].value === 'rabbit' || animal.attributes[0].value === 'elephant') {
+                    this.removeAnimal(animal);
+                }
+                ;
+            });
+        };
     }
     add(animals) {
         animals.forEach((animal) => {
@@ -27,48 +63,12 @@ class AnimalFarm {
         });
     }
     ;
-    removeAnimalOnClick(event) {
-        const parentNodeId = animalFarm.farm.id;
-        const animals = Array.from(animalFarm.farm.children);
-        const index = animals.indexOf(event.currentTarget);
-        if (index === -1) {
-            console.error("Can't remove the right animal");
-        }
-        ;
-        switch (parentNodeId) {
-            case "Animals_div":
-                animalFarm.removedAnimals.push(animalFarm.animals[index]);
-                animalFarm.animals.splice(index, 1);
-                animalFarm.farm.removeChild(event.currentTarget);
-                break;
-            default:
-                console.error("No such farm exists");
-                return;
-        }
-        ;
-    }
-    removeAnimal(animal) {
-        const animals = Array.from(animalFarm.farm.children);
-        const index = animals.indexOf(animal);
-        this.removedAnimals.push(this.animals[index]);
-        animalFarm.animals.splice(index, 1);
-        this.farm.removeChild(animal);
-    }
     returnDeletedAnimals() {
         for (let i = 0; i < this.removedAnimals.length; i++) {
             this.farm.appendChild(this.removedAnimals[i].element);
             this.animals.push(this.removedAnimals[i]);
         }
         this.removedAnimals = [];
-    }
-    leaveOnlyPenguins() {
-        const animals = Array.from(animalFarm.farm.children);
-        animals.forEach((animal) => {
-            if (animal.attributes[0].value === 'rabbit' || animal.attributes[0].value === 'elephant') {
-                this.removeAnimal(animal);
-            }
-            ;
-        });
     }
     addAnimalToFarm(animal) {
         this.animals.push(animal);

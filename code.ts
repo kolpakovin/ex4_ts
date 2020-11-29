@@ -34,9 +34,9 @@ class AnimalFarm {
             });
     };
 
-    removeAnimalOnClick(event: Event): void {
-        const parentNodeId: string = animalFarm.farm.id;
-        const animals: Element[] = Array.from(animalFarm.farm.children);
+    removeAnimalOnClick = (event: Event): void => {
+        const parentNodeId: string = this.farm.id;
+        const animals: Element[] = Array.from(this.farm.children);
         const index: number = animals.indexOf(event.currentTarget as HTMLElement);
         if(index === -1) {
             console.error("Can't remove the right animal")
@@ -53,11 +53,11 @@ class AnimalFarm {
         };
     }
 
-    removeAnimal(animal: Element): void {
-        const animals: Element[] = Array.from(animalFarm.farm.children);
+    removeAnimal = (animal: Element): void => {
+        const animals: Element[] = Array.from(this.farm.children);
         const index: number = animals.indexOf(animal);
         this.removedAnimals.push(this.animals[index]);
-        animalFarm.animals.splice(index, 1);
+        this.animals.splice(index, 1);
         this.farm.removeChild(animal);
     }
 
@@ -70,8 +70,8 @@ class AnimalFarm {
         this.removedAnimals = [];
     }
 
-    leaveOnlyPenguins(): void {
-        const animals: Element[] = Array.from(animalFarm.farm.children);
+    leaveOnlyPenguins = (): void => {
+        const animals: Element[] = Array.from(this.farm.children);
         animals.forEach((animal: Element) => {
             if (animal.attributes[0].value === 'rabbit' || animal.attributes[0].value === 'elephant') {
                 this.removeAnimal(animal);
@@ -95,7 +95,7 @@ abstract class Animal {
 
     constructor(public specialProperty: number) {}
 
-    createElement() {
+    createElement(): Element {
         this.element.setAttribute('type', this.type);
         let atext = document.createElement('p') as HTMLParagraphElement;
         atext.innerHTML = this.note;
