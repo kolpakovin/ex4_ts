@@ -1,3 +1,5 @@
+type Animals = Rabbit | Penguin | Elephant;
+
 interface AnimalProps {
     type: string;
     weight?: number;
@@ -6,14 +8,14 @@ interface AnimalProps {
 }
 
 class AnimalFarm {
-    removedAnimals: any[] = [];
-    animals: any[] = [];
+    removedAnimals: Animals[] = [];
+    animals: Animals[] = [];
 
     constructor(public farm: HTMLDivElement) {}
 
     add(animals: AnimalProps[]): void {
         animals.forEach((animal: AnimalProps) => {
-            let createdAnimal:Animals;
+            let createdAnimal: Animals;
             switch (animal.type) {
                 case "elephant":
                     createdAnimal = Elephant.createElephantInstance(animal.weight as number);
@@ -28,14 +30,14 @@ class AnimalFarm {
                     console.error("We don't support the creation of this animal");
                     return;
                 };
-                this.farm.appendChild(createdAnimal.element);
+                this.farm.appendChild(createdAnimal.element as HTMLDivElement);
             });
     };
 
     removeAnimalOnClick(event: Event): void {
-        const parentNodeId = animalFarm.farm.id;
+        const parentNodeId: string = animalFarm.farm.id;
         const animals: Element[] = Array.from(animalFarm.farm.children);
-        const index = animals.indexOf(event.currentTarget as HTMLElement);
+        const index: number = animals.indexOf(event.currentTarget as HTMLElement);
         if(index === -1) {
             console.error("Can't remove the right animal")
         };
@@ -83,7 +85,7 @@ class AnimalFarm {
 }
 
 let aList = document.getElementById("Animals_div") as HTMLDivElement;
-const animalFarm = new AnimalFarm(aList);
+const animalFarm: AnimalFarm = new AnimalFarm(aList);
 
 abstract class Animal {
     element = document.createElement('div') as HTMLDivElement;
@@ -151,8 +153,6 @@ class Elephant extends Animal {
         return new Elephant(specialProperty);
     } 
 };
-
-type Animals = Rabbit | Penguin | Elephant;
 
 let aAnimal1 = Elephant.createElephantInstance(780);
 let aAnimal2 = Elephant.createElephantInstance(650);
